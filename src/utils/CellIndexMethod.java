@@ -9,16 +9,16 @@ import java.util.Set;
 import model.Particle;
 import model.Point;
 
-public class CellIndexMethod {
+public class CellIndexMethod <T extends Particle> {
 
-	Set<Particle>[][] matrix;
+	Set<T>[][] matrix;
 	private double cellLength;
-	private List<Particle> particles;
+	private List<T> particles;
 	private boolean periodicBounds;
 	private double rc;
 	private double l;
 
-	public CellIndexMethod(List<Particle> particles, double l, int m, double rc, boolean periodicBounds) {
+	public CellIndexMethod(List<T> particles, double l, int m, double rc, boolean periodicBounds) {
 		cellLength = l / m;
 		this.l = l;
 		this.periodicBounds = periodicBounds;
@@ -30,7 +30,7 @@ public class CellIndexMethod {
 		fillMatrix(particles, m);
 	}
 
-	public Set<Particle>[][] getMatrix() {
+	public Set<T>[][] getMatrix() {
 		return matrix;
 	}
 
@@ -46,16 +46,16 @@ public class CellIndexMethod {
 		return l;
 	}
 
-	private Map<Particle, Set<Particle>> getNeighbours() {
-		Map<Particle, Set<Particle>> neighbours = new HashMap<Particle, Set<Particle>>();
-		for (Particle p : particles) {
-			neighbours.put(p, new HashSet<Particle>());
+	public Map<T, Set<T>> getNeighbours() {
+		Map<T, Set<T>> neighbours = new HashMap<T, Set<T>>();
+		for (T p : particles) {
+			neighbours.put(p, new HashSet<T>());
 		}
 		int m = matrix.length;
 		for (int x = 0; x < m; x++) {
 			for (int y = 0; y < m; y++) {
-				Set<Particle> particlesInCell = matrix[x][y];
-				for (Particle p : particlesInCell) {
+				Set<T> particlesInCell = matrix[x][y];
+				for (T p : particlesInCell) {
 					int[] dx = { 0, 0, 1, 1, 1 };
 					int[] dy = { 0, 1, 1, 0, -1 };
 					for (int k = 0; k < 5; k++) {
@@ -68,7 +68,7 @@ public class CellIndexMethod {
 						}
 						xx = (xx + m) % m;
 						yy = (yy + m) % m;
-						for (Particle q : matrix[xx][yy]) {
+						for (T q : matrix[xx][yy]) {
 							addNeighbour(p, q, neighbours);
 						}
 					}
@@ -79,7 +79,7 @@ public class CellIndexMethod {
 
 	}
 
-	private void addNeighbour(Particle p, Particle q, Map<Particle, Set<Particle>> neighbours) {
+	private void addNeighbour(T p, T q, Map<T, Set<T>> neighbours) {
 		if (p.equals(q)) {
 			return;
 		}
@@ -116,23 +116,23 @@ public class CellIndexMethod {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void fillMatrix(List<Particle> particles, int m) {
+	private void fillMatrix(List<T> particles, int m) {
 		matrix = new Set[m][m];
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < m; j++) {
-				matrix[i][j] = new HashSet<Particle>();
+				matrix[i][j] = new HashSet<T>();
 			}
 		}
-		for (Particle particle : particles) {
+		for (T particle : particles) {
 			Point p = particle.getPosition();
 			matrix[(int) (p.x / cellLength)][(int) (p.y / cellLength)].add(particle);
 		}
 	}
 
-	private boolean validProperties(List<Particle> particles, double l, int m, double rc) {
+	private boolean validProperties(List<T> particles, double l, int m, double rc) {
 		double max1 = 0;
 		double max2 = 0;
-		for (Particle p : particles) {
+		for (T p : particles) {
 			if (p.getRadius() >= max1) {
 				max2 = max1;
 				max1 = p.getRadius();
@@ -142,7 +142,7 @@ public class CellIndexMethod {
 				}
 			}
 		}
-		return (cellLength > rc + max1 + max2);
+		return (cellLength >= rc + max1 + max2);
 	}
 	
 	/**
@@ -151,7 +151,7 @@ public class CellIndexMethod {
 	 * @param x - new x coordinate
 	 * @param y - new y coordinate
 	 */
-	public void moveParticle(Particle particle, int x, int y){
+	public void moveT(T particle, int x, int y){
 		Point p = particle.getPosition();
 		int prevX = (int) (p.x / cellLength);
 		int prevY = (int) (p.y / cellLength);

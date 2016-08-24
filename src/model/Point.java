@@ -331,4 +331,11 @@ public class Point {
 		return result;
 	}
 
+	public void mod(double l) {
+		double floorX = Math.floor(x/l);
+		x = x - (floorX*l);
+		double floorY = Math.floor(y/l);
+		y = y - (floorY*l);
+	}
+
 }

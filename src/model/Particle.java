@@ -3,7 +3,7 @@ package model;
 public class Particle {
 	
 	private int id;
-	private Point position;
+	protected Point position;
 	private double radius;
 	
 	public Particle(int id, double x, double y, double r) {
@@ -24,6 +24,8 @@ public class Particle {
 		return radius;
 	}
 	
-	
+	public void modularize(double L){
+		position.mod(L);
+	}
 
 }
