@@ -21,6 +21,7 @@ public class XYZFilesGenerator {
 	private final static String BLUE = "0 0 1";
 	private final static String SOLID = "0";
 	private final static String SEMI_TRANSPARENT = "0.8";
+	private final static String TRANSPARENT = "1";
 
 	public static void showNeighbours(String outputPath,
 			List<? extends Particle> particles) {
@@ -33,14 +34,14 @@ public class XYZFilesGenerator {
 	private static List<String> getNeighboursHeader(int size) {
 		List<String> header = new ArrayList<>();
 		header.add(Integer.toString(size));
-		header.add("ParticleId xCoordinate yCoordinate Radius R G B Transparency");
+		header.add("ParticleId xCoordinate yCoordinate xDisplacement yDisplacement mDisplacement Radius R G B Transparency");
 		return header;
 	}
 
 	private static void addBasicBody(List<? extends Particle> particles,
 			List<String> lines) {
 		for (Particle particle : particles) {
-			lines.add(getParticleLine(particle, getColor(particle)));
+			lines.add(getParticleLine(particle));
 		}
 	}
 
@@ -52,10 +53,18 @@ public class XYZFilesGenerator {
 		String color = x + " " + y + " 0";
 		return color;
 	}
+	
 
-	private static String getParticleLine(Particle p, String color) {
-		return p.getId() + " " + p.getPosition().x + " " + p.getPosition().y
-				+ " 0.1 " + color + " " + SOLID;
+	private static String getParticleLine(Particle p) {
+		return p.getId() + " " + p.getPosition().x + " " + p.getPosition().y + " " + getDisplacement(p)
+				+ " 0.1 " + getColor(p) + " " + TRANSPARENT;
+	}
+
+	private static String getDisplacement(Particle particle) {
+		Bird bird = (Bird) particle;
+		double xDisplacement = (bird.getVelocity() + 1)*Math.cos(bird.getAngle());
+		double yDisplacement = (bird.getVelocity() + 1)*Math.sin(bird.getAngle());
+		return xDisplacement + " " + yDisplacement + " " + (bird.getVelocity() + 1);
 	}
 
 	private static void writeFile(String path, List<String> lines) {

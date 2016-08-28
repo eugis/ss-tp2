@@ -31,6 +31,10 @@ public class Bird extends Particle {
 	public double getAngle() {
 		return angle;
 	}
+	
+	public double getVelocity() {
+		return velocity;
+	}
 
 	public void calculateFutureVariables(Set<Bird> neighbourBirds) {
 		calculateFutureAngle(neighbourBirds);
