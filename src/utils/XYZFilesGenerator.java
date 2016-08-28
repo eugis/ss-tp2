@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import model.Bird;
 import model.Particle;
 
 public class XYZFilesGenerator {
@@ -39,8 +40,17 @@ public class XYZFilesGenerator {
 	private static void addBasicBody(List<? extends Particle> particles,
 			List<String> lines) {
 		for (Particle particle : particles) {
-			lines.add(getParticleLine(particle, GREEN));
+			lines.add(getParticleLine(particle, getColor(particle)));
 		}
+	}
+
+	private static String getColor(Particle particle) {
+		Bird bird = (Bird) particle;
+		double angle = bird.getAngle();
+		double x = (Math.cos(angle) + 1) / 2;
+		double y = (Math.sin(angle) + 1) / 2;
+		String color = x + " " + y + " 0";
+		return color;
 	}
 
 	private static String getParticleLine(Particle p, String color) {

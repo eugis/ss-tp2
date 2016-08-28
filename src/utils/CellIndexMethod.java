@@ -16,18 +16,19 @@ public class CellIndexMethod <T extends Particle> {
 	private List<T> particles;
 	private boolean periodicBounds;
 	private double rc;
+	private int m;
 	private double l;
 
 	public CellIndexMethod(List<T> particles, double l, int m, double rc, boolean periodicBounds) {
 		cellLength = l / m;
 		this.l = l;
+		this.m = m;
 		this.periodicBounds = periodicBounds;
 		this.rc = rc;
 		this.particles = particles;
 		if (!validProperties(particles, l, m, rc)) {
 			throw new IllegalArgumentException();
 		}
-		fillMatrix(particles, m);
 	}
 
 	public Set<T>[][] getMatrix() {
@@ -48,6 +49,7 @@ public class CellIndexMethod <T extends Particle> {
 
 	public Map<T, Set<T>> getNeighbours() {
 		Map<T, Set<T>> neighbours = new HashMap<T, Set<T>>();
+		fillMatrix(particles, m);
 		for (T p : particles) {
 			neighbours.put(p, new HashSet<T>());
 		}
@@ -151,12 +153,12 @@ public class CellIndexMethod <T extends Particle> {
 	 * @param x - new x coordinate
 	 * @param y - new y coordinate
 	 */
-	public void moveT(T particle, int x, int y){
+	public void moveTo(T particle, Point point){
 		Point p = particle.getPosition();
 		int prevX = (int) (p.x / cellLength);
 		int prevY = (int) (p.y / cellLength);
-		int postX = (int) (x / cellLength);
-		int postY = (int) (y / cellLength);
+		int postX = (int) (point.x / cellLength);
+		int postY = (int) (point.y / cellLength);
 		if(prevX != postX || prevY != postY){
 			matrix[prevX][prevY].remove(particle);
 			matrix[postX][postY].add(particle);

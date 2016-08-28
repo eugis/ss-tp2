@@ -30,6 +30,7 @@ public class FlockRun {
 			double pertubation,
 			int randomSeed) {
 		this.L=L;
+		RandomGenerator.setSeed(randomSeed);
 		birds = new LinkedList<>();
 		for (int i = 0; i < n; i++) {
 			birds.add(new Bird(i, 
@@ -59,7 +60,6 @@ public class FlockRun {
 	}
 	
 	private void printOutput(int time){
-		// TODO: VICKY HELP!
 		XYZFilesGenerator.showNeighbours("./flockAnimation/flock"+time, birds);
 	}
 	
