@@ -338,4 +338,13 @@ public class Point {
 		y = y - (floorY*l);
 	}
 
+	public void add(double x, double y) {
+		this.x+=x;
+		this.y+=y;
+	}
+	
+	public double abs(){
+		return Point.abs(this);
+	}
+
 }

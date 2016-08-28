@@ -74,5 +74,13 @@ public class Bird extends Particle {
 		position = futurePosition;
 		angle = futureAngle;
 	}
+	
+	public double getVelocityX(){
+		return velocity*Math.cos(angle);
+	}
+	
+	public double getVelocityY(){
+		return velocity*Math.sin(angle);
+	}
 
 }
