@@ -34,7 +34,7 @@ public class XYZFilesGenerator {
 	private static List<String> getNeighboursHeader(int size) {
 		List<String> header = new ArrayList<>();
 		header.add(Integer.toString(size));
-		header.add("ParticleId xCoordinate yCoordinate xDisplacement yDisplacement mDisplacement Radius R G B Transparency");
+		header.add("ParticleId xCoordinate yCoordinate xDisplacement yDisplacement Radius R G B Transparency");
 		return header;
 	}
 
@@ -57,14 +57,14 @@ public class XYZFilesGenerator {
 
 	private static String getParticleLine(Particle p) {
 		return p.getId() + " " + p.getPosition().x + " " + p.getPosition().y + " " + getDisplacement(p)
-				+ " 0.1 " + getColor(p) + " " + TRANSPARENT;
+				+ " 0.1 " + getColor(p) + " " + SOLID;
 	}
 
 	private static String getDisplacement(Particle particle) {
 		Bird bird = (Bird) particle;
 		double xDisplacement = (bird.getVelocity() + 1)*Math.cos(bird.getAngle());
 		double yDisplacement = (bird.getVelocity() + 1)*Math.sin(bird.getAngle());
-		return xDisplacement + " " + yDisplacement + " " + (bird.getVelocity() + 1);
+		return xDisplacement + " " + yDisplacement;
 	}
 
 	private static void writeFile(String path, List<String> lines) {
