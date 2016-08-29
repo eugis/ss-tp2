@@ -66,7 +66,7 @@ public class Bird extends Particle {
 	private void calculateFuturePosition() {
 		futurePosition = Point.sum(
 				getPosition(),
-				new Point(velocity * Math.cos(futureAngle), velocity
+				new Point(velocity * Math.cos(angle), velocity
 						* Math.sin(angle)));
 	}
 
