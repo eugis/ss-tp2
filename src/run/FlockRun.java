@@ -14,16 +14,17 @@ import utils.XYZFilesGenerator;
 public class FlockRun {
 
 	public static void main(String[] args) {
-
+		//public FlockRun(int n, double L, double rc, boolean periodicBounds,double velocityOfBirds,
+				//double pertubation, int randomSeed, int time, boolean printOutput) 
 		//a: new FlockRun(300, 7.0, 1.0, true, 0.03, 2.0, 1234, true); 
 		//b: new FlockRun(300, 25.0, 1.0, true, 0.03, 0.1, 1234, true);
 		//d: new FlockRun(300, 5.0, 1.0, true, 0.03, 0.1, 1234, true);
 		//new FlockRun(300, 25.0, 1.0, true, 0.03, 2.0, 1234, true);
 		//new FlockRun(300, 25.0, 1.0, true, 0.03, 1.0, 1234, false);
 		//new FlockRun(100, 25.0, 2.0, true, 0.03, 0.01, 1234, true);
-		//new FlockRun(300,25.0,1.0, true, 0.03, 2.0, 8, true);
-		for(int i=0; i<50; i++){
-			new FlockRun(18*9, 18.0, 1.0, true, 0.03, 0.1, i, 2000, i==0);
+//		new FlockRun(300,25.0,1.0, true, 0.03, 1.0, 1234, 3900, true);
+		for(int i=0; i<20; i++){
+			new FlockRun(300, 25, 1.0, true, 0.03, 0.1, i, 2000, i==0);
 		}
 	}
 	
@@ -65,7 +66,7 @@ public class FlockRun {
 	private void startSimulation(){
 		double va = 0.0;
 		for(int t=0; t<time; t++){
-			if(time-t<100){
+			if(time-t<=100){
 				va += getVA();
 			}
 			if(printOutput){
